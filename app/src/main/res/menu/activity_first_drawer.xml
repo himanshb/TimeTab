@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/note_logo"
+            android:title="Notes" />
+
+        <item
+            android:id="@+id/nav_alarm"
+            android:icon="@android:drawable/ic_lock_idle_alarm"
+            android:title="Alarm" />
+    </group>
+
+    <item android:title="Help">
+        <menu>
+            <item
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/about_us_logo"
+                android:title="About Us" />
+        </menu>
+    </item>
+
+
+</menu>

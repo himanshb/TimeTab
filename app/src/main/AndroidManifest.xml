@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.pc.timetab">
+
+    <uses-permission android:name="android.permission.SET_ALARAM" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MonActivity"
+            android:label="@string/title_activity_mon" />
+        <activity android:name=".FormActivity" />
+        <activity android:name=".UpdateActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AlarmActivity" />
+        <activity
+            android:name=".FirstActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name="com.example.pc.notes.CreateNoteActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.pc.notes.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.example.pc.notes.UpdateNoteActivity" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".ReminderActivity" />
+
+        <receiver android:name=".AlarmBroadcastReceiver" />
+        <receiver android:name=".ReminderReceiver" />
+
+        <activity android:name=".Reminder2Activity"></activity>
+    </application>
+
+</manifest>
