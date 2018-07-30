@@ -1,7 +1,7 @@
 package com.example.pc.notes;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -55,9 +55,9 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 String date=button.getText().toString();
-                int color=generateColor();
                 String title=editTextTitle.getText().toString();
                 if (!title.equals("")&&!date.equals("Select Date")) {
+                    int color=generateColor();
                     timeStamp = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.getDefault()).format(new Date());
                     addNote(title,timeStamp,date,color);
                 }
@@ -73,13 +73,22 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         return true;
     }
 
+    //Method to generate a random color for a card
     protected int generateColor(){
+        SharedPreferences preferences=this.getSharedPreferences("my_preferences",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
         List<Integer> list=new ArrayList<>();
         for (int i=1;i<=14;i++){
             list.add(i);
         }
         Collections.shuffle(list);
-        switch (list.get(1)){
+        int colorVal=list.get(0);
+        if (colorVal==preferences.getInt("color_val",0)){
+            colorVal=list.get(1);
+        }
+        editor.putInt("color_val",colorVal);
+        editor.apply();
+        switch (colorVal){
             case 1:
                 return getColor(R.color.colorAccent);
             case 2:
@@ -139,33 +148,31 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             int curYear = calendar.get(Calendar.YEAR);
             int curMonth = calendar.get(Calendar.MONTH);
             int curDay = calendar.get(Calendar.DAY_OF_MONTH);
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                DatePickerDialog dpDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month+=1;
-                        if (month<10){
-                            if (dayOfMonth<10){
+            DatePickerDialog dpDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    month+=1;
+                    if (month<10){
+                        if (dayOfMonth<10){
 
-                                button.setText(year+"/"+"0"+month+"/"+"0"+dayOfMonth);
-                            }
-                            else {
-                                button.setText(year+"/"+"0"+month+"/"+dayOfMonth);
-                            }
+                            button.setText(year+"/"+"0"+month+"/"+"0"+dayOfMonth);
                         }
                         else {
-                            if (dayOfMonth<10){
-                                button.setText(year+"/"+month+"/"+"0"+dayOfMonth);
-                            }
-                            else {
-                                button.setText(year+"/"+month+"/"+dayOfMonth);
-                            }
+                            button.setText(year+"/"+"0"+month+"/"+dayOfMonth);
                         }
                     }
-                }, curYear, curMonth, curDay);
+                    else {
+                        if (dayOfMonth<10){
+                            button.setText(year+"/"+month+"/"+"0"+dayOfMonth);
+                        }
+                        else {
+                            button.setText(year+"/"+month+"/"+dayOfMonth);
+                        }
+                    }
+                }
+            }, curYear, curMonth, curDay);
 
-                dpDialog.show();
-            }
+            dpDialog.show();
         }
     }
 }

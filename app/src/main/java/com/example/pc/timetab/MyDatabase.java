@@ -34,6 +34,17 @@ public class MyDatabase extends SQLiteOpenHelper {
         return check>0;
     }
 
+    protected String timeChecker(String from,String day){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("select time_from from mytable where time_from=? and day=?",new String[]{from,day});
+        if (cursor.getCount()>0){
+            cursor.close();
+            return "MATCHED";
+        }
+        else
+            return "NULL";
+    }
+
     protected Cursor getCursor(String day){
         SQLiteDatabase db=this.getReadableDatabase();
         return db.rawQuery("select * from mytable where day=? order by time_from",new String[]{day});
@@ -63,7 +74,5 @@ public class MyDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("delete database Time_Table_DB");
-        onCreate(db);
     }
 }
